@@ -122,7 +122,7 @@ class LSTM():
 
         # Gradient clipping for stability
         gradients = self.optimizer.compute_gradients(self.loss)
-        clipped_gradients = [(tf.clip_by_norm(grad, 500.0), var) for grad, var in gradients]
+        clipped_gradients = [(tf.clip_by_value(grad, -10, 10), var) for grad, var in gradients]
         self.train_step = self.optimizer.apply_gradients(clipped_gradients, global_step = self.global_step)
 
         # self.train_step = self.optimizer.minimize(self.loss, global_step = self.global_step)
