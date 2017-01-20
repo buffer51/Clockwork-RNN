@@ -4,9 +4,13 @@ import tensorflow as tf
 class LSTM():
     """
         Implementation of Long-Short Term Memory cells
-        using TensorFlow's BasicLSTMCell
+        using TensorFlow's BasicLSTMCell.
 
-        Can be difficult to train, use a learning rate of 1e-3
+        It can be difficult to train for long sequences, because of exploding
+        gradients. Clipping by global norm should be applied, but for long
+        sequences it causes overflows (norm is Inf). Therefore, the less
+        stable clipping by value is applied.
+        A learning rate of 1e-3 is recommended.
     """
 
     def __init__(self, config, initial_state = None):
@@ -79,6 +83,7 @@ class LSTM():
             state = lstm.zero_state(1, tf.float32)
         outputs = []
 
+        # Unfold the LSTM accross time
         with tf.variable_scope('lstm') as scope:
             for t in range(self.config['num_steps']):
                 if t > 0:

@@ -11,7 +11,7 @@ from models.clockwork_rnn import ClockworkRNN
 from models.lstm import LSTM
 
 if __name__ == '__main__':
-    ### Create the Clockwork RNN ###
+    ### Dataset & training configuration ###
     config = {
         'input_dim': 0,
         'hidden_dim': 36,
@@ -37,7 +37,7 @@ if __name__ == '__main__':
         model = LSTM(config)
         print('The LSTM has {} parameters'.format(model.num_parameters))
 
-    # Change this for a different log/ subfolder
+    # Change this for a different logging subfolder
     experiment_name = '{}_{}params'.format(model_type, model.num_parameters)
 
     ### Load data ###
@@ -65,6 +65,7 @@ if __name__ == '__main__':
             model.targets: targets
         }
 
+        ### Train for several epochs ###
         for epoch in range(config['max_epochs']):
             results = sess.run([model.train_step, model.summaries],
                 feed_dict = data_dict)

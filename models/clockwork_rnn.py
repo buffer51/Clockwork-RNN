@@ -4,9 +4,10 @@ import tensorflow as tf
 class ClockworkRNN():
     """
         Implementation of Clockwork RNN based on
-        A Clockwork RNN - Koutnik et al. 2014 [arXiv, https://arxiv.org/abs/1402.3511]
+        A Clockwork RNN - Koutnik et al. 2014
+        [arXiv, https://arxiv.org/abs/1402.3511].
 
-        Recommended learning rate of 1e-2
+        A learning rate of 1e-2 is recommended.
     """
 
     def __init__(self, config, initial_state = None):
@@ -98,6 +99,7 @@ class ClockworkRNN():
             state = tf.zeros((self.config['hidden_dim'], 1))
         outputs = []
 
+        # Unfold the Clockwork RNN accross time
         with tf.variable_scope('clockwork_rnn'):
             for t in range(self.config['num_steps']):
                 for i in range(self.num_periods):
