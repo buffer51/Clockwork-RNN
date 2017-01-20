@@ -1,4 +1,5 @@
 *.pyc
 test
-#TensorBoard logs
-log/
+
+# TensorBoard logs
+results/log/
