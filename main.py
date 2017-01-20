@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 
+import argparse
+
 import numpy as np
 import tensorflow as tf
-import argparse
-from preprocess import preprocess
-from models.clockwork_rnn import ClockworkRNN
-from models.lstm import LSTM
 import matplotlib.pyplot as plt
 
-NUM_STEP = 100
-PLOT = False
+from data.generation.parse_wav import ParseWav
+from models.clockwork_rnn import ClockworkRNN
+from models.lstm import LSTM
 
 if __name__ == '__main__':
     ### Create the Clockwork RNN ###
@@ -47,14 +46,11 @@ if __name__ == '__main__':
     # targets = np.reshape(np.sin(np.arange(config['num_steps'])), (config['num_steps'], config['output_dim']))
 
     # Use a WAV file and normalize it
-    p = preprocess()
-    p.slice(0, config['num_steps']) # Select values BEFORE normalization
-    p.normalize()
+    parse_wav = ParseWav('data/generation/bad_taste.wav', 0, config['num_steps'])
     # Reshape signal for model
-    targets = p.get_signal().reshape((-1, 1))
-
+    targets = parse_wav.normalized_signal.reshape((-1, 1))
     # Plot signal
-    # p.show_signal()
+    # parse_wav.show_signal()
 
     ### Create a session ###
     with tf.Session() as sess:
@@ -62,7 +58,7 @@ if __name__ == '__main__':
         tf.global_variables_initializer().run()
 
         # Create a writer
-        log_writer = tf.summary.FileWriter('log/' + experiment_name, sess.graph, flush_secs = 2)
+        log_writer = tf.summary.FileWriter('results/log/' + experiment_name, sess.graph, flush_secs = 2)
 
         data_dict = {
             model.inputs: np.zeros((config['num_steps'], config['input_dim'])),
