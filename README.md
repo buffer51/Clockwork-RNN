@@ -3,6 +3,8 @@
 This project is an implementation of the Clockwork RNN
 (see [paper](https://arxiv.org/abs/1402.3511)).
 
+See [this section](#dependencies) for dependencies.
+
 ### People : Paul Mustière, Pandav2 aka David Panou
 ### Organization : UPMC - Master Data Science
 
@@ -61,3 +63,13 @@ for the best performing Clockwork RNN:
 ![Plot of generated signal](results/cwrnn_802.png)
 
 Generated signals for other models can be found under `results/`
+
+## Dependencies
+
+- NumPy
+- TensorFlow (tested with 0.12.1)
+- Matplotlib
+
+For generating sequences from WAV files:
+
+- SciPy
